@@ -69,6 +69,12 @@ inputs:
     description: |
       A newline-separated list of files to pass to "staticcheck -merge".
     required: false
+  fail:
+    description: |
+      Comma-separated list of checks that can cause a non-zero exit
+      status. Set to "none" to always return 0, which can be useful when using
+      staticcheck for the first time in an existing codebase.
+    required: false
 
 runs:
   using: "composite"
@@ -96,6 +102,8 @@ runs:
         format: ${{ inputs.output-format }}
         file: ${{ inputs.output-file }}
         merge: ${{ inputs.merge-files }}
+        fail: ${{ inputs.fail }}
+
       working-directory: ${{ inputs.working-directory }}
       run: |
         export STATICCHECK_CACHE="${{ runner.temp }}/staticcheck"
